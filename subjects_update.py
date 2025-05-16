@@ -54,10 +54,31 @@ def update_subjects():
         else:
             continue
         if len(cols[6].get_text(strip=True)) > 1:
-            capital = cols[6].get_text(strip=True)
+            capital = ''
+            for s in cols[6].get_text(strip=True):
+                if s.isalnum() or s == '-':
+                    capital += s
+                else:
+                    break
         else:
             continue
         cur.execute(f"INSERT INTO subjects(name,flag,emblem,square,population,center) VALUES(?, ?, ?, ?, ?, ?)",
                     (name, flag, emblem, area, population, capital))
     con.commit()
     con.close()
+
+
+def found_count_subjects():
+    con = sqlite3.connect("data.db")
+    cur = con.cursor()
+    count_subjects = cur.execute('SELECT COUNT(name) FROM subjects').fetchone()[0]
+    con.close()
+    return count_subjects
+
+
+def found_count_republics():
+    con = sqlite3.connect("data.db")
+    cur = con.cursor()
+    count_republics = cur.execute("SELECT COUNT(name) FROM subjects WHERE name LIKE '%Республика%'").fetchone()[0]
+    con.close()
+    return count_republics
