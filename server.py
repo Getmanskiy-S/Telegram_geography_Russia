@@ -1,10 +1,6 @@
 import os
 from main import main
-import resource
 from flask import Flask
-
-memory_limit = 500 * 1024 * 1024  # 500 МБ
-resource.setrlimit(resource.RLIMIT_AS, (memory_limit, memory_limit))
 
 app = Flask(__name__)
 
